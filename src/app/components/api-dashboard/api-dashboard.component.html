@@ -1,1 +1,28 @@
+<p-card header="Datos COVID" styleClass="p-mt-3">
+  <div *ngIf="covidData">
+    <p><strong>Casos Globales:</strong> {{ covidData.Global.TotalConfirmed }}</p>
+    <p><strong>Muertes Globales:</strong> {{ covidData.Global.TotalDeaths }}</p>
+  </div>
+  <div *ngIf="!covidData">
+    <p>Cargando datos de COVID...</p>
+  </div>
+</p-card>
+
+<p-card header="Precios Criptomonedas" styleClass="p-mt-3">
+  <div *ngIf="cryptoData">
+    <ul>
+      <li *ngFor="let coin of cryptoData.slice(0, 5)">
+        <strong>{{ coin.name }}</strong>: ${{ coin.current_price }}
+      </li>
+    </ul>
+  </div>
+  <div *ngIf="!cryptoData">
+    <p>Cargando precios de criptomonedas...</p>
+  </div>
+</p-card>
+
+<p-card header="Clima en Guayaquil" styleClass="p-mt-3">
+  <div *ngIf="weatherData">
+    <p><strong>Temperatura:</strong> {{ weatherData.main.temp }} K</p>
+    <p><strong>Condición:</strong> {{ weatherData.weather[0].description }}
 
