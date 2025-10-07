@@ -1,14 +1,13 @@
-import { ChartModule } from 'primeng/chart';
-import { ButtonModule } from 'primeng/button';
-import { CardModule } from 'primeng/card';
-import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
-  imports: [
-    ChartModule,
-    ButtonModule,
-    CardModule,
-    HttpClientModule,
-    // otros módulos...
-  ]
+  declarations: [AppComponent],
+  imports: [BrowserModule, RouterModule, AppRoutingModule],
+  bootstrap: [AppComponent]
 })
+export class AppModule {}
