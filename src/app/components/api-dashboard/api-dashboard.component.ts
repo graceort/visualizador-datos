@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CovidApiService } from '../../services/covid-api.service';
+import { forkJoin } from 'rxjs';
 
 interface CovidRow {
   pais: string;
@@ -15,40 +17,45 @@ interface CovidRow {
 })
 export class ApiDashboardComponent implements OnInit {
   loading = true;
-  resumenGlobal = {
-    confirmados: 0,
-    recuperados: 0,
-    fallecidos: 0,
-    tasaLetalidad: 0
-  };
 
+  resumenGlobal = { confirmados: 0, recuperados: 0, fallecidos: 0, tasaLetalidad: 0 };
   rows: CovidRow[] = [];
 
+  constructor(private api: CovidApiService) {}
+
   ngOnInit(): void {
-    // Mock: en producción, reemplazar con ApiService HTTP
-    setTimeout(() => {
-      const data = {
-        global: { confirmados: 1250000, recuperados: 1180000, fallecidos: 36000 },
-        detalle: [
-          { pais: 'Ecuador',   confirmados: 1140000, recuperados: 1100000, fallecidos: 36000 },
-          { pais: 'Perú',      confirmados: 4200000, recuperados: 4100000, fallecidos: 219000 },
-          { pais: 'Colombia',  confirmados: 6400000, recuperados: 6270000, fallecidos: 142000 },
-          { pais: 'Chile',     confirmados: 5400000, recuperados: 5330000, fallecidos: 64400 }
-        ]
-      };
+    // países de ejemplo (ajusta a conveniencia)
+    const paises = ['Ecuador', 'Peru', 'Colombia', 'Chile'];
 
-      const g = data.global;
-      this.resumenGlobal.confirmados = g.confirmados;
-      this.resumenGlobal.recuperados = g.recuperados;
-      this.resumenGlobal.fallecidos = g.fallecidos;
-      this.resumenGlobal.tasaLetalidad = +( (g.fallecidos / g.confirmados) * 100 ).toFixed(2);
+    forkJoin({
+      global: this.api.getGlobal(),
+      countries: this.api.getCountries()
+    }).subscribe(({ global, countries }) => {
+      // global
+      this.resumenGlobal.confirmados = global?.cases ?? 0;
+      this.resumenGlobal.recuperados = global?.recovered ?? 0;
+      this.resumenGlobal.fallecidos  = global?.deaths ?? 0;
+      this.resumenGlobal.tasaLetalidad = +( (this.resumenGlobal.fallecidos / Math.max(this.resumenGlobal.confirmados, 1)) * 100 ).toFixed(2);
 
-      this.rows = data.detalle.map(r => ({
-        ...r,
-        tasaLetalidad: +( (r.fallecidos / r.confirmados) * 100 ).toFixed(2)
-      }));
+      // tabla: filtrar países seleccionados
+      const mapa = new Map<string, any>(
+        countries.map(c => [String(c.country).toLowerCase(), c])
+      );
+      this.rows = paises.map(nombre => {
+        const c = mapa.get(nombre.toLowerCase());
+        const confirmados = c?.cases ?? 0;
+        const recuperados = c?.recovered ?? 0;
+        const fallecidos  = c?.deaths ?? 0;
+        return {
+          pais: nombre,
+          confirmados,
+          recuperados,
+          fallecidos,
+          tasaLetalidad: +((fallecidos / Math.max(confirmados, 1)) * 100).toFixed(2)
+        };
+      });
 
       this.loading = false;
-    }, 400);
+    }, _ => { this.loading = false; });
   }
 }
