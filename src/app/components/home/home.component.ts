@@ -1,10 +1,8 @@
-<p-card header="Visualizador de Datos">
-  <div class="grid">
-    <div class="col">
-      <button pButton label="Ver APIs" routerLink="/api-dashboard"></button>
-    </div>
-    <div class="col">
-      <button pButton label="Ver Gráficos" routerLink="/chart-view"></button>
-    </div>
-  </div>
-</p-card>
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
+})
+export class HomeComponent {}

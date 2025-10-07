@@ -14,7 +14,9 @@
             "outputPath": "dist/visualizador-datos",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": ["src/polyfills.ts"],
+            "polyfills": [
+              "src/polyfills.ts"
+            ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
@@ -40,13 +42,16 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "visualizador-datos:build:production"
+              "buildTarget": "visualizador-datos:build:production"
             },
             "development": {
-              "browserTarget": "visualizador-datos:build:development"
+              "buildTarget": "visualizador-datos:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 46301
+          }
         }
       }
     }

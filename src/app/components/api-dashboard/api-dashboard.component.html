@@ -1,28 +1,50 @@
-<p-card header="Datos COVID" styleClass="p-mt-3">
-  <div *ngIf="covidData">
-    <p><strong>Casos Globales:</strong> {{ covidData.Global.TotalConfirmed }}</p>
-    <p><strong>Muertes Globales:</strong> {{ covidData.Global.TotalDeaths }}</p>
-  </div>
-  <div *ngIf="!covidData">
-    <p>Cargando datos de COVID...</p>
-  </div>
-</p-card>
+<section class="dashboard">
+  <h2>API Dashboard — COVID-19</h2>
 
-<p-card header="Precios Criptomonedas" styleClass="p-mt-3">
-  <div *ngIf="cryptoData">
-    <ul>
-      <li *ngFor="let coin of cryptoData.slice(0, 5)">
-        <strong>{{ coin.name }}</strong>: ${{ coin.current_price }}
-      </li>
-    </ul>
+src/app  <div class="kpis">
+    <div class="kpi">
+      <span class="label">Confirmados</span>
+      <span class="value">{{ resumenGlobal.confirmados | number }}</span>
+    </div>
+    <div class="kpi">
+      <span class="label">Recuperados</span>
+      <span class="value">{{ resumenGlobal.recuperados | number }}</span>
+    </div>
+    <div class="kpi">
+      <span class="label">Fallecidos</span>
+      <span class="value">{{ resumenGlobal.fallecidos | number }}</span>
+    </div>
+    <div class="kpi">
+      <span class="label">Tasa de letalidad</span>
+      <span class="value">{{ resumenGlobal.tasaLetalidad }}%</span>
+    </div>
   </div>
-  <div *ngIf="!cryptoData">
-    <p>Cargando precios de criptomonedas...</p>
-  </div>
-</p-card>
 
-<p-card header="Clima en Guayaquil" styleClass="p-mt-3">
-  <div *ngIf="weatherData">
-    <p><strong>Temperatura:</strong> {{ weatherData.main.temp }} K</p>
-    <p><strong>Condición:</strong> {{ weatherData.weather[0].description }}
-
+  <p-table
+    [value]="rows"
+    [loading]="loading"
+    [paginator]="true"
+    [rows]="5"
+    [rowsPerPageOptions]="[5,10,20]"
+    responsiveLayout="scroll"
+    styleClass="p-datatable-sm p-datatable-gridlines">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>País</th>
+        <th class="num">Confirmados</th>
+        <th class="num">Recuperados</th>
+        <th class="num">Fallecidos</th>
+        <th class="num">Letalidad</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-r>
+      <tr>
+        <td>{{ r.pais }}</td>
+        <td class="num">{{ r.confirmados | number }}</td>
+        <td class="num">{{ r.recuperados | number }}</td>
+        <td class="num">{{ r.fallecidos | number }}</td>
+        <td class="num">{{ r.tasaLetalidad }}%</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</section>

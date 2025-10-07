@@ -1,1 +1,39 @@
-
+.home {
+  padding: 2rem;
+}
+.hero {
+  margin-bottom: 1.5rem;
+}
+.subtitle {
+  opacity: 0.8;
+}
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  background: #2563eb;
+  color: #fff;
+  transition: transform 0.05s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn.outline {
+  background: transparent;
+  color: #2563eb;
+  border: 1px solid #2563eb;
+}
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+.card {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 1rem;
+}

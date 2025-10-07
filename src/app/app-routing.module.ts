@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-// Si tienes estos componentes, importa y usa.
-// De lo contrario, deja rutas vacías o crea un Home mínimo.
+import { HomeComponent } from './components/home/home.component';
+import { ChartViewComponent } from './components/chart-view/chart-view.component';
+import { ApiDashboardComponent } from './components/api-dashboard/api-dashboard.component';
+
 const routes: Routes = [
-  // { path: '', component: HomeComponent },
-  // { path: 'dashboard', component: ApiDashboardComponent },
-  // { path: 'charts', component: ChartViewComponent },
-  { path: '', pathMatch: 'full', redirectTo: 'home' },
-  { path: '**', redirectTo: 'home' }
+  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'charts', component: ChartViewComponent },
+  { path: 'dashboard', component: ApiDashboardComponent },
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

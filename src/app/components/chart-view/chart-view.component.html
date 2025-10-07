@@ -1,4 +1,31 @@
-<p-card header="Diagrama de Rendimiento" styleClass="p-mt-4">
-  <p-chart type="pie" [data]="chartData" styleClass="w-full"></p-chart>
-</p-card>
+<section class="chart-view">
+  <h2>Visor de Gráficos</h2>
 
+  <div class="cards">
+    <div class="card">
+      <h3>COVID-19 mensual (línea)</h3>
+      <p-chart type="line"
+               [data]="covidLineData"
+               [options]="covidLineOptions"
+               style="height: 320px; display:block;"></p-chart>
+    </div>
+
+    <div class="card">
+      <h3>COVID-19 (distribución acumulada)</h3>
+      <p class="hint">Confirmados vs Recuperados vs Fallecidos.</p>
+      <p-chart type="pie"
+               [data]="pieData"
+               [options]="pieOptions"
+               style="height: 320px; display:block;"></p-chart>
+    </div>
+
+    <div class="card">
+      <h3>Vacunación (dona)</h3>
+      <p class="hint">Porcentaje de población: ≥1 dosis, esquema completo y refuerzo.</p>
+      <p-chart type="doughnut"
+               [data]="donutData"
+               [options]="donutOptions"
+               style="height: 320px; display:block;"></p-chart>
+    </div>
+  </div>
+</section>

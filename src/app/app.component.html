@@ -1,1 +1,11 @@
-<router-outlet></router-outlet>
+<nav class="topbar">
+  <a routerLink="/" class="brand">Visualizador</a>
+  <div class="links">
+    <a routerLink="/home">Home</a>
+    <a routerLink="/dashboard">Dashboard</a>
+    <a routerLink="/charts">Gráficos</a>
+  </div>
+</nav>
+<main class="page">
+  <router-outlet></router-outlet>
+</main>

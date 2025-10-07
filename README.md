@@ -1,44 +1,45 @@
-# Visualizador de Datos y Rendimiento
+# Visualizador de Datos — Angular + PrimeNG
 
-Proyecto en Angular 18 con PrimeFlex y PrimeNG. Consume múltiples APIs y presenta visualizaciones como diagramas de pastel para una optima visualización estadística de datos.
+**Visualizador de Datos** es una aplicación web desarrollada con **Angular 18** y **PrimeNG** para la visualización interactiva de información estadística.  
+Incluye gráficos, tablas y paneles dinámicos con datos simulados sobre **COVID-19** (para demostración).
 
-## Tecnologías
-- Angular 18
-- PrimeNG + PrimeFlex
-- Chart.js
-- APIs públicas (COVID, clima)
+---
 
-## Estructura
+## Características principales
 
-src/
-├── app/
-│   ├── components/
-│   │   ├── home/
-│   │   ├── chart-view/
-│   │   ├── api-dashboard/
-│   ├── services/
-│   │   └── api.service.ts
-│   ├── app.module.ts
-│   ├── app-routing.module.ts
-│   ├── app.component.ts / .html / .scss
-│   ├── app.config.ts
-├── main.ts
-├── index.html
-├── polyfills.ts
+- **Dashboard de API:** muestra métricas generales y tablas dinámicas de países con PrimeNG.
+- **Visor de gráficos:** integra gráficos de líneas, pastel y dona con información COVID (hospitalizaciones, UCI, vacunación).
+- **Diseño responsive y moderno:** tipografía Poppins, tarjetas elevadas y esquema de colores agradable.
+- **Arquitectura modular:** componentes separados (`home`, `chart-view`, `api-dashboard`) con enrutamiento.
+- **Preparado para consumo de APIs reales** mediante `HttpClientModule`.
 
-## Instalación
+---
 
-1. Clona el repositorio:
+## Instalación y ejecución
 
-git clone https://github.com/graceort/visualizador-datos.git
-cd visualizador-datos
+1. Instalar dependencias
 
-2. Instala las dependencias:
 npm install
 
-3. Ejecuta el proyecto:
-ng serve --host 0.0.0.0
+2. Ejecutar en modo desarrollo
 
-4. Abre en tu navegador:
-http://localhost:4200
+ng serve
+
+3. Abre el navegador en: http://localhost:46301/
+
+4. Configurar producción
+
+ng build --configuration production
+
+
+## Dependencias principales
+
+- Angular 18.x
+
+- PrimeNG 18.x
+
+- Chart.js (para visualización de datos)
+
+- PrimeFlex / PrimeIcons (para estilos y diseño)
+
 
