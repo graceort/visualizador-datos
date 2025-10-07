@@ -6,7 +6,7 @@ Proyecto en Angular 18 con PrimeFlex y PrimeNG. Consume múltiples APIs y presen
 - Angular 18
 - PrimeNG + PrimeFlex
 - Chart.js
-- APIs públicas (COVID, clima, criptomonedas)
+- APIs públicas (COVID, clima)
 
 ## Instalación
 ```bash
