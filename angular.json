@@ -50,8 +50,7 @@
           },
           "defaultConfiguration": "development",
           "options": {
-            "port": 46301
-          }
+            "host": "0.0.0.0"          }
         }
       }
     }

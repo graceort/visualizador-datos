@@ -1,57 +1,48 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CovidApiService {
   private readonly base = 'https://disease.sh/v3/covid-19';
+  private readonly noCache = new HttpHeaders({
+    'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0'
+  });
 
   constructor(private http: HttpClient) {}
 
-  // Totales globales
   getGlobal(): Observable<any> {
-    return this.http.get<any>(`${this.base}/all`);
+    const t = Date.now();
+    return this.http.get<any>(`${this.base}/all?t=${t}`, { headers: this.noCache });
   }
 
-  // Resumen por país (ej. Ecuador)
   getCountry(country: string): Observable<any> {
-    return this.http.get<any>(`${this.base}/countries/${encodeURIComponent(country)}?strict=true`);
+    const t = Date.now();
+    return this.http.get<any>(`${this.base}/countries/${encodeURIComponent(country)}?strict=true&t=${t}`, { headers: this.noCache });
   }
 
-  // Resumen de muchos países
   getCountries(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.base}/countries`);
+    const t = Date.now();
+    return this.http.get<any[]>(`${this.base}/countries?t=${t}`, { headers: this.noCache });
   }
 
-  // Serie histórica de un país (cases, deaths, recovered)
-  // lastdays: número o 'all' (p.ej. 180)
   getHistorical(country: string, lastdays: number | 'all' = 180): Observable<{
-    dates: string[];
-    cases: number[];
-    deaths: number[];
-    recovered: number[];
+    dates: string[]; cases: number[]; deaths: number[]; recovered: number[];
   }> {
-    return this.http.get<any>(`${this.base}/historical/${encodeURIComponent(country)}?lastdays=${lastdays}`).pipe(
-      map((res) => {
-        const t = res?.timeline ?? {};
+    const t = Date.now();
+    return this.http.get<any>(`${this.base}/historical/${encodeURIComponent(country)}?lastdays=${lastdays}&t=${t}`, { headers: this.noCache })
+      .pipe(map((res) => {
+        const tline = res?.timeline ?? {};
         const toSeries = (obj: Record<string, number> = {}) => {
           const entries = Object.entries(obj).sort((a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime());
-          return {
-            dates: entries.map(([d]) => d),
-            values: entries.map(([, v]) => v),
-          };
+          return { dates: entries.map(([d]) => d), values: entries.map(([, v]) => v) };
         };
-        const sCases = toSeries(t.cases);
-        const sDeaths = toSeries(t.deaths);
-        const sRecov  = toSeries(t.recovered);
-        // usar las fechas de casos como referencia
-        return {
-          dates: sCases.dates,
-          cases: sCases.values,
-          deaths: sDeaths.values,
-          recovered: sRecov.values
-        };
-      })
-    );
+        const sCases = toSeries(tline.cases);
+        const sDeaths = toSeries(tline.deaths);
+        const sRecov  = toSeries(tline.recovered);
+        return { dates: sCases.dates, cases: sCases.values, deaths: sDeaths.values, recovered: sRecov.values };
+      }));
   }
 }

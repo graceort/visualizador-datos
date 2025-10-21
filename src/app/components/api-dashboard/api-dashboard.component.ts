@@ -17,32 +17,36 @@ interface CovidRow {
 })
 export class ApiDashboardComponent implements OnInit {
   loading = true;
-
+  countryList = ['Ecuador', 'Peru', 'Colombia', 'Chile'];
   resumenGlobal = { confirmados: 0, recuperados: 0, fallecidos: 0, tasaLetalidad: 0 };
   rows: CovidRow[] = [];
 
   constructor(private api: CovidApiService) {}
 
   ngOnInit(): void {
-    // países de ejemplo (ajusta a conveniencia)
-    const paises = ['Ecuador', 'Peru', 'Colombia', 'Chile'];
+    this.loadData();
+  }
 
+  reload(): void {
+    this.loadData();
+  }
+
+  private loadData(): void {
+    this.loading = true;
     forkJoin({
       global: this.api.getGlobal(),
       countries: this.api.getCountries()
     }).subscribe(({ global, countries }) => {
-      // global
+      // Global (propio)
       this.resumenGlobal.confirmados = global?.cases ?? 0;
       this.resumenGlobal.recuperados = global?.recovered ?? 0;
       this.resumenGlobal.fallecidos  = global?.deaths ?? 0;
-      this.resumenGlobal.tasaLetalidad = +( (this.resumenGlobal.fallecidos / Math.max(this.resumenGlobal.confirmados, 1)) * 100 ).toFixed(2);
+      this.resumenGlobal.tasaLetalidad = +((this.resumenGlobal.fallecidos / Math.max(this.resumenGlobal.confirmados, 1)) * 100).toFixed(2);
 
-      // tabla: filtrar países seleccionados
-      const mapa = new Map<string, any>(
-        countries.map(c => [String(c.country).toLowerCase(), c])
-      );
-      this.rows = paises.map(nombre => {
-        const c = mapa.get(nombre.toLowerCase());
+      // Tabla: países del selector (propio)
+      const idx = new Map<string, any>(countries.map(c => [String(c.country).toLowerCase(), c]));
+      this.rows = this.countryList.map(nombre => {
+        const c = idx.get(nombre.toLowerCase());
         const confirmados = c?.cases ?? 0;
         const recuperados = c?.recovered ?? 0;
         const fallecidos  = c?.deaths ?? 0;

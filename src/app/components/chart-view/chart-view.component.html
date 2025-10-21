@@ -1,9 +1,17 @@
 <section class="chart-view">
   <h2>Visor de Gráficos</h2>
 
+  <div style="display:flex; gap:.5rem; align-items:center; margin-bottom:.75rem;">
+    <label for="country" style="font-weight:600;">País:</label>
+    <select id="country" [(ngModel)]="selected" (change)="onCountryChange()">
+      <option *ngFor="let c of countries" [value]="c">{{ c }}</option>
+    </select>
+    <button class="btn" (click)="onCountryChange()" [disabled]="loading">Actualizar</button>
+  </div>
+
   <div class="cards">
     <div class="card">
-      <h3>COVID-19 mensual (línea)</h3>
+      <h3>COVID-19 (línea temporal)</h3>
       <p-chart type="line"
                [data]="covidLineData"
                [options]="covidLineOptions"
@@ -11,8 +19,7 @@
     </div>
 
     <div class="card">
-      <h3>COVID-19 (distribución acumulada)</h3>
-      <p class="hint">Confirmados vs Recuperados vs Fallecidos.</p>
+      <h3>Distribución (casos, recuperados, fallecidos)</h3>
       <p-chart type="pie"
                [data]="pieData"
                [options]="pieOptions"
@@ -20,8 +27,7 @@
     </div>
 
     <div class="card">
-      <h3>Vacunación (dona)</h3>
-      <p class="hint">Porcentaje de población: ≥1 dosis, esquema completo y refuerzo.</p>
+      <h3>Activos vs recuperados vs fallecidos</h3>
       <p-chart type="doughnut"
                [data]="donutData"
                [options]="donutOptions"
