@@ -42,4 +42,8 @@ ng build --configuration production
 
 - PrimeFlex / PrimeIcons (para estilos y diseño)
 
+## URL del proyecto
 
+FRONT (Angular):  https://4300-crispy-space-happiness-pj597jvw47gcq4.githubpreview.dev
+API (Swagger):    https://5160-crispy-space-happiness-pj597jvw47gcq4.githubpreview.dev/swagger
+API (Proxy):      https://4300-crispy-space-happiness-pj597jvw47gcq4.githubpreview.dev/api/solicitudes
