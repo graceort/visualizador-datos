@@ -3,7 +3,7 @@
 
   <div style="display:flex; gap:.5rem; align-items:center; margin-bottom:.75rem;">
     <label for="country" style="font-weight:600;">País:</label>
-    <select id="country" [(ngModel)]="selected" (change)="onCountryChange()">
+    <select name="country" id="country" [(ngModel)]="selected" (change)="onCountryChange()">
       <option *ngFor="let c of countries" [value]="c">{{ c }}</option>
     </select>
     <button class="btn" (click)="onCountryChange()" [disabled]="loading">Actualizar</button>

@@ -24,7 +24,8 @@ import { ApiDashboardComponent } from './components/api-dashboard/api-dashboard.
     RouterModule,
     AppRoutingModule,
     ChartModule,
-    TableModule
+    TableModule,
+      FormsModule
   ],
   bootstrap: [AppComponent]
 })

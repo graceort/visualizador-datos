@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 import { ChartData, ChartOptions } from 'chart.js';
 import { forkJoin } from 'rxjs';
 import { CovidApiService } from '../../services/covid-api.service';
