@@ -1,17 +1,49 @@
-<div class="grid">
-  <div class="col-12 md:col-6 lg:col-4 p-3">
-    <div class="surface-card shadow-2 border-round p-3">
-      <h3 class="mb-3">Alerta en tiempo real (Total)</h3>
-
-      <div class="text-2xl font-bold mb-3">
-        {{ sum || 0 }}
-      </div>
-
-      <div class="flex gap-2">
-        <button class="p-button p-component" (click)="add(1)">+1</button>
-        <button class="p-button p-component" (click)="add(5)">+5</button>
-        <button class="p-button p-component" (click)="add(10)">+10</button>
-      </div>
+<div class="home">
+  <header class="hero">
+    <h1>Visualizador de Datos</h1>
+    <p>¡Bienvenidos!</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" routerLink="/dashboard">Ir al Dashboard</a>
+      <a class="btn btn-ghost" routerLink="/realtime">Ver Alertas</a>
     </div>
-  </div>
+  </header>
+
+  <section class="features">
+    <div class="feature-card">
+      <h4>Datos</h4>
+      <p>Conecta tu información y visualiza las estadísticas.</p>
+    </div>
+    <div class="feature-card">
+      <h4>Reportes</h4>
+      <p>Genera reportes para análisis y presentaciones.</p>
+    </div>
+    <div class="feature-card">
+      <h4>Configuración</h4>
+      <p>Personaliza temas, formatos y preferencias.</p>
+    </div>
+  </section>
+
+  <h2 class="section-title">Visor de Gráficos</h2>
+
+  <section class="charts">
+    <div class="chart-card">
+      <h3>Estados por Mes (Barras apiladas)</h3>
+      <p-chart
+        type="bar"
+        [data]="stackedData"
+        [options]="stackedOptions"
+        style="height: 340px; display:block;">
+      </p-chart>
+    </div>
+
+    <div class="chart-card">
+      <h3>Tendencia diaria (Línea)</h3>
+      <p-chart
+        type="line"
+        [data]="lineData"
+        [options]="lineOptions"
+        style="height: 340px; display:block;">
+      </p-chart>
+    </div>
+  </section>
 </div>

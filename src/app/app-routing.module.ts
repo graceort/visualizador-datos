@@ -1,20 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { HomeComponent } from './components/home/home.component';
-import { ChartViewComponent } from './features/dashboard/components/chart-view/chart-view.component';
-import { ApiDashboardComponent } from './features/dashboard/components/api-dashboard/api-dashboard.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'charts', component: ChartViewComponent },
-  { path: 'dashboard', component: ApiDashboardComponent },
+  { path: 'dashboard', loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule) },
+  { path: 'realtime',  loadChildren: () => import('./features/realtime/realtime.module').then(m => m.RealtimeModule) },
   { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}

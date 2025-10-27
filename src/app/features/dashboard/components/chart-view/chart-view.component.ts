@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
-import { ChartData, ChartOptions } from 'chart.js';
-import { forkJoin } from 'rxjs';
-import { CovidApiService } from '../../services/covid-api.service';
+import { ChartOptions } from 'chart.js';
 
 @Component({
   selector: 'app-chart-view',
@@ -11,86 +7,93 @@ import { CovidApiService } from '../../services/covid-api.service';
   styleUrls: ['./chart-view.component.scss']
 })
 export class ChartViewComponent implements OnInit {
-  countries = ['Ecuador', 'Peru', 'Colombia', 'Chile'];
-  selected = 'Ecuador';
 
-  covidLineData!: ChartData<'line'>;
-  covidLineOptions!: ChartOptions<'line'>;
-  pieData!: ChartData<'pie'>;
-  pieOptions!: ChartOptions<'pie'>;
-  donutData!: ChartData<'doughnut'>;
-  donutOptions!: ChartOptions<'doughnut'>;
-  loading = true;
+  // Barras apiladas: meses vs estados
+  stackedData: any = {};
+  stackedOptions!: ChartOptions<'bar'>;   // non-null assertion
 
-  constructor(private api: CovidApiService) {}
+  // Línea: días vs un indicador distinto (p.ej. alertas diarias)
+  lineData: any = {};
+  lineOptions!: ChartOptions<'line'>;     // non-null assertion
 
   ngOnInit(): void {
-    this.fetch();
-  }
+    const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'];
 
-  onCountryChange(): void {
-    this.fetch();
-  }
+    // Datos diferentes por estado (barras apiladas)
+    const pendientes = [12, 9, 14, 8, 11, 7];
+    const aprobados  = [7, 10, 6, 12, 9, 13];
+    const enRevision = [4, 5, 3, 6, 5, 4];
 
-  private fetch(): void {
-    const country = this.selected;
-    this.loading = true;
+    this.stackedData = {
+      labels: months,
+      datasets: [
+        { label: 'Pendiente',   data: pendientes,  backgroundColor: 'rgba(244,67,54,0.7)' },
+        { label: 'Aprobado',    data: aprobados,   backgroundColor: 'rgba(76,175,80,0.7)' },
+        { label: 'En revisión', data: enRevision,  backgroundColor: 'rgba(33,150,243,0.7)' }
+      ]
+    };
 
-    forkJoin({
-      hist: this.api.getHistorical(country, 180),
-      sum:  this.api.getCountry(country)
-    }).subscribe(({ hist, sum }) => {
-      // Línea: casos vs muertes
-      this.covidLineData = {
-        labels: hist.dates,
-        datasets: [
-          { label: 'Casos',   data: hist.cases,  fill: false, tension: 0.25 },
-          { label: 'Muertes', data: hist.deaths, fill: false, tension: 0.25, borderDash: [6, 6] }
-        ]
-      };
-      this.covidLineOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { position: 'bottom' }, tooltip: { intersect: false, mode: 'index' } },
-        scales: { y: { beginAtZero: true } }
-      };
-
-      // Pastel: casos vs recuperados vs fallecidos
-      this.pieData = {
-        labels: ['Casos', 'Recuperados', 'Fallecidos'],
-        datasets: [{ data: [sum?.cases ?? 0, sum?.recovered ?? 0, sum?.deaths ?? 0] }]
-      };
-      this.pieOptions = {
-        responsive: true, maintainAspectRatio: false,
-        plugins: {
-          legend: { position: 'bottom' },
-          tooltip: {
-            callbacks: {
-              label: (ctx) => {
-                const label = ctx.label ?? '';
-                const value = ctx.parsed ?? 0;
-                const total = (ctx.dataset.data as number[]).reduce((a,b)=>a+b,0);
-                const pct = total ? (value/total*100).toFixed(1) : '0.0';
-                return `${label}: ${value.toLocaleString()} (${pct}%)`;
-              }
-            }
+    this.stackedOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'top' },
+        tooltip: {
+          enabled: true,
+          callbacks: {
+            label: (ctx) => {
+              const estado = ctx.dataset.label || 'Estado';
+              const valor = (ctx.parsed as any)?.y ?? ctx.parsed;
+              return `${estado}: ${valor}`;
+            },
+            title: (items) => items?.[0]?.label ?? ''
           }
         }
-      };
+      },
+      scales: {
+        x: { stacked: true, grid: { display: false } },
+        y: { stacked: true, beginAtZero: true }
+      }
+    };
 
-      // Dona: activos vs recuperados vs fallecidos
-      const active = sum?.active ?? Math.max((sum?.cases ?? 0) - (sum?.recovered ?? 0) - (sum?.deaths ?? 0), 0);
-      this.donutData = {
-        labels: ['Activos', 'Recuperados', 'Fallecidos'],
-        datasets: [{ data: [active, sum?.recovered ?? 0, sum?.deaths ?? 0] }]
-      };
-      this.donutOptions = {
-        responsive: true, maintainAspectRatio: false,
-        cutout: '60%',
-        plugins: { legend: { position: 'bottom' } }
-      };
+    // Línea con otra métrica (distinta a la de barras)
+    const days = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+    const tendencia = [5, 8, 6, 9, 12, 10, 7];
 
-      this.loading = false;
-    }, _ => { this.loading = false; });
+    this.lineData = {
+      labels: days,
+      datasets: [
+        {
+          label: 'Alertas diarias',
+          data: tendencia,
+          fill: false,
+          borderWidth: 2,
+          tension: 0.3,
+          pointRadius: 3
+        }
+      ]
+    };
+
+    this.lineOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'top' },
+        tooltip: {
+          enabled: true,
+          callbacks: {
+            label: (ctx) => {
+              const valor = (ctx.parsed as any)?.y ?? ctx.parsed;
+              return `Valor: ${valor}`;
+            },
+            title: (items) => items?.[0]?.label ?? ''
+          }
+        }
+      },
+      scales: {
+        x: { grid: { display: false } },
+        y: { beginAtZero: true }
+      }
+    };
   }
 }

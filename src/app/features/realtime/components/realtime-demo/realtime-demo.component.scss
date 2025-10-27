@@ -1,0 +1,18 @@
+.rt-container { padding: 1rem; }
+.hint { color:#6b7280; margin:.25rem 0 1rem; }
+
+.right { text-align: right; }
+
+.row-alert { animation: flash 0.8s ease-in-out 0s 5 alternate; background: #fff9c4 !important; }
+@keyframes flash {
+  from { background:#fff9c4; }
+  to   { background:#fff3bf; }
+}
+
+.badge {
+  display:inline-block; padding:.2rem .5rem; border-radius:.5rem;
+  background:#f59e0b; color:white; font-weight:700; font-size:.75rem;
+}
+
+.up { color:#10b981; font-weight:600; }
+.down { color:#ef4444; font-weight:600; }

@@ -1,0 +1,33 @@
+<div class="home-container">
+  <header class="home-header">
+    <h1>Bienvenido al <span>Visualizador de Datos</span></h1>
+    <p>Explora la información de manera intuitiva y en tiempo real.</p>
+  </header>
+
+  <section class="home-actions">
+    <div class="action-card" routerLink="/dashboard">
+      <i class="pi pi-database"></i>
+      <h3>Ver Datos</h3>
+      <p>Consulta la información procesada desde las APIs activas.</p>
+      <button>Explorar</button>
+    </div>
+
+    <div class="action-card" routerLink="/dashboard/chart">
+      <i class="pi pi-chart-line"></i>
+      <h3>Ver Gráficos</h3>
+      <p>Visualiza estadísticas en dashboards dinámicos.</p>
+      <button>Ver gráficos</button>
+    </div>
+
+    <div class="action-card" routerLink="/realtime">
+      <i class="pi pi-bell"></i>
+      <h3>Ver Alertas</h3>
+      <p>Observa los cambios en tiempo real y las alertas activas.</p>
+      <button>Ver alertas</button>
+    </div>
+  </section>
+
+  <footer class="home-footer">
+    <p>🔹 Laboratorios Ortega | © {{ currentYear }}</p>
+  </footer>
+</div>

@@ -1,37 +1,21 @@
-<section class="chart-view">
-  <h2>Visor de Gráficos</h2>
+<div class="chart-wrapper">
+  <section class="chart-card">
+    <h3>Estados por Mes (Barras apiladas)</h3>
+    <p-chart
+      type="bar"
+      [data]="stackedData"
+      [options]="stackedOptions"
+      style="height: 360px; display:block;">
+    </p-chart>
+  </section>
 
-  <div style="display:flex; gap:.5rem; align-items:center; margin-bottom:.75rem;">
-    <label for="country" style="font-weight:600;">País:</label>
-    <select name="country" id="country" [(ngModel)]="selected" (change)="onCountryChange()">
-      <option *ngFor="let c of countries" [value]="c">{{ c }}</option>
-    </select>
-    <button class="btn" (click)="onCountryChange()" [disabled]="loading">Actualizar</button>
-  </div>
-
-  <div class="cards">
-    <div class="card">
-      <h3>COVID-19 (línea temporal)</h3>
-      <p-chart type="line"
-               [data]="covidLineData"
-               [options]="covidLineOptions"
-               style="height: 320px; display:block;"></p-chart>
-    </div>
-
-    <div class="card">
-      <h3>Distribución (casos, recuperados, fallecidos)</h3>
-      <p-chart type="pie"
-               [data]="pieData"
-               [options]="pieOptions"
-               style="height: 320px; display:block;"></p-chart>
-    </div>
-
-    <div class="card">
-      <h3>Activos vs recuperados vs fallecidos</h3>
-      <p-chart type="doughnut"
-               [data]="donutData"
-               [options]="donutOptions"
-               style="height: 320px; display:block;"></p-chart>
-    </div>
-  </div>
-</section>
+  <section class="chart-card">
+    <h3>Tendencia diaria (Línea)</h3>
+    <p-chart
+      type="line"
+      [data]="lineData"
+      [options]="lineOptions"
+      style="height: 360px; display:block;">
+    </p-chart>
+  </section>
+</div>

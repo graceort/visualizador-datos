@@ -1,0 +1,35 @@
+<div class="rt-container">
+  <h2>Alertas en tiempo real</h2>
+  <p class="hint">Cuando algún estado cambie, se resaltará en <b>amarillo</b> durante 5 segundos.</p>
+
+  <p-table
+    [value]="rows"
+    [tableStyle]="{ 'min-width': '520px' }"
+    styleClass="p-datatable-sm p-datatable-gridlines">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Estado</th>
+        <th class="right">Valor actual</th>
+        <th class="right">Cambio</th>
+        <th>Última actualización</th>
+        <th>Alerta</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-row>
+      <tr [ngClass]="row.recent ? 'row-alert' : ''">
+        <td>{{ row.estado }}</td>
+        <td class="right">{{ row.valor }}</td>
+        <td class="right">
+          <span [ngClass]="{ up: row.cambio > 0, down: row.cambio < 0 }">
+            {{ row.cambio > 0 ? '+' : '' }}{{ row.cambio }}
+          </span>
+        </td>
+        <td>{{ row.updatedAt | date:'HH:mm:ss' }}</td>
+        <td>
+          <span class="badge" *ngIf="row.recent">ALERTA</span>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
