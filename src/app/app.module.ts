@@ -12,8 +12,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { HomeComponent } from './components/home/home.component';
-import { ChartViewComponent } from './components/chart-view/chart-view.component';
-import { ApiDashboardComponent } from './components/api-dashboard/api-dashboard.component';
+import { ChartViewComponent } from './features/dashboard/components/chart-view/chart-view.component';
+import { ApiDashboardComponent } from './features/dashboard/components/api-dashboard/api-dashboard.component';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, ChartViewComponent, ApiDashboardComponent],

@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './components/home/home.component';
-import { ChartViewComponent } from './components/chart-view/chart-view.component';
-import { ApiDashboardComponent } from './components/api-dashboard/api-dashboard.component';
+import { ChartViewComponent } from './features/dashboard/components/chart-view/chart-view.component';
+import { ApiDashboardComponent } from './features/dashboard/components/api-dashboard/api-dashboard.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },

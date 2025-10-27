@@ -1,26 +1,17 @@
-<section class="home">
-  <header class="hero">
-    <h1>Visualizador de Datos</h1>
-    <p class="subtitle">¡Bienvenidos!</p>
-  </header>
+<div class="grid">
+  <div class="col-12 md:col-6 lg:col-4 p-3">
+    <div class="surface-card shadow-2 border-round p-3">
+      <h3 class="mb-3">Alerta en tiempo real (Total)</h3>
 
-  <div class="actions">
-    <a routerLink="/dashboard" class="btn">Ir al Dashboard</a>
-    <a routerLink="/charts" class="btn outline">Ver Gráficos</a>
-  </div>
+      <div class="text-2xl font-bold mb-3">
+        {{ sum || 0 }}
+      </div>
 
-  <div class="grid">
-    <div class="card">
-      <h3>Datos</h3>
-      <p>Conecta tu información y visualiza las estadísticas.</p>
-    </div>
-    <div class="card">
-      <h3>Reportes</h3>
-      <p>Genera reportes para análisis y presentaciones.</p>
-    </div>
-    <div class="card">
-      <h3>Configuración</h3>
-      <p>Personaliza temas, formatos y preferencias.</p>
+      <div class="flex gap-2">
+        <button class="p-button p-component" (click)="add(1)">+1</button>
+        <button class="p-button p-component" (click)="add(5)">+5</button>
+        <button class="p-button p-component" (click)="add(10)">+10</button>
+      </div>
     </div>
   </div>
-</section>
+</div>
